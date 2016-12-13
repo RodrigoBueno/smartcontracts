@@ -98,12 +98,13 @@ public class SimpleSample extends ChaincodeBase {
 		}catch(NumberFormatException e ){
 			e.printStackTrace();
 			return "{\"Error\":\"Expecting integer value for amount \"}";
-		}		
-		if(valA>valFrom)
+		}	
+                int taxes = valA * 0.01;	
+		if(valA + taxes > valFrom)
 			return "{\"Error\":\"Insufficient asset holding value for requested transfer amount \"}";
-		valFrom = valFrom-valA;
+		valFrom = valFrom-valA-taxes;
 		valTo = valTo+valA;
-		System.out.println("Transfer "+fromName+">"+toName+" am='"+am+"' new values='"+valFrom+"','"+ valTo+"'");
+		System.out.println("Transfer "+fromName+">"+toName+" am='"+am+"' new values='"+valFrom+"','"+ valTo+"'" + " taxes ='" + taxes + "'");
 		stub.putState(fromName,""+ valFrom);
 		stub.putState(toName, ""+valTo);		
 
